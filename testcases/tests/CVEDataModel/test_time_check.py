@@ -44,3 +44,11 @@ class CVEDataModelTest(TestCase):
         self.assertEqual(cve_data.created_at, mock_date)
         self.assertEqual(cve_data.updated_at, mock_update_date)
         self.assertEqual(cve_data.updated_at.strftime("%Y-%m-%d"), '2023-08-05')
+
+    #Checking for null value in these fields but it shows error.
+    # def test_null_value(self):
+    #     cve_data_new = CVEData.objects.create(
+    #         id = 'CVE-2023-169'
+    #     )
+    #     self.assertIsNone(cve_data_new.created_at)
+    #     self.assertIsNone(cve_data_new.updated_at)

@@ -21,3 +21,4 @@ class IntegrationConfigModelTest(TestCase):
         self.assertEqual(dict(self.ic.extra) ,self.ic.extra)
         self.assertEqual(str(self.ic.org_name) ,self.ic.org_name)
         self.assertEqual(str(self.ic.description), self.ic.description)
+

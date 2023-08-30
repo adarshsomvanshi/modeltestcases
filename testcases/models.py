@@ -250,7 +250,7 @@ class GlobalConfig(models.Model):
 
 
 
-class ScannedHost(models.Model):
+class ScannedHost(models.Model):   #NetworkHost
     ip = models.CharField(max_length=255, unique=True)
     ipv6 = models.CharField(max_length=255, default=None, null=True)
     mac = models.CharField(max_length=255, default=None, null=True)
@@ -269,7 +269,7 @@ class ScannedHostDetails(models.Model):
     additional_data = JSONField(blank=True, null=True)
 
 
-class MSFHistory(models.Model):
+class MSFHistory(models.Model):  #instant jobs
     command = models.CharField(max_length=255)
     job_id = models.CharField(max_length=255, unique=True, default=None, null=True)
     user = models.CharField(max_length=255)
@@ -282,7 +282,7 @@ class MSFHistory(models.Model):
     failed = models.BooleanField(default=0)
 
 
-class PortService(models.Model):
+class PortService(models.Model):   #Ports
     port = models.IntegerField()
     port_status = models.BooleanField(default=0)
     service = models.CharField(max_length=255)

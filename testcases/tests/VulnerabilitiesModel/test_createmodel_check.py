@@ -18,7 +18,7 @@ class VulnerabilitiesModelTest(TestCase):
             rule_finding='Sample rule finding',
             info='Additional info',
             timestamp='2023-08-10',
-            status='Open',
+            status='Openashdlashfalhfdfhodifhaoide',
             assignee='John Doe',
             history='Initial finding',
             jira='Additional Jira',
@@ -41,7 +41,7 @@ class VulnerabilitiesModelTest(TestCase):
         self.assertEqual(self.vul.rule_finding,"Sample rule finding")
         self.assertEqual(self.vul.info,"Additional info")
         self.assertEqual(str(self.vul.timestamp),"2023-08-10")
-        self.assertEqual(self.vul.status,"Open")
+        self.assertEqual(self.vul.status,"Openashdlashfalhfdfhodifhaoide")
         self.assertEqual(self.vul.assignee,"John Doe")
         self.assertEqual(self.vul.history,"Initial finding")
         self.assertEqual(self.vul.jira,"Additional Jira")
@@ -50,3 +50,21 @@ class VulnerabilitiesModelTest(TestCase):
         self.assertEqual(self.vul.owner,"Bob")
         self.assertEqual(self.vul.vertical,"Sample Vertical")
         self.assertEqual(self.vul.service_owner,"Service Owner")
+
+
+    # def test_unique_id_uniqueness(self):
+    #     Vulnerabilities.objects.create(unique_id = 'CVE-2023-1234',rule_severity=4,port=800)
+    #     with self.assertRaises(Exception):
+    #         Vulnerabilities.objects.create(unique_id = 'CVE-2023-1234',rule_severity=24,port=80)
+
+    def test_unique_id_length(self):
+        with self.assertRaises(Exception):
+            Vulnerabilities.objects.create(unique_id = 'a' * 51)
+    
+    def test_status_length(self):
+        with self.assertRaises(Exception):
+            Vulnerabilities.objects.create(status = 'a'*31)
+
+    def test_assignee_length(self):
+        with self.assertRaises(Exception):
+            Vulnerabilities.objects.create(assignee = 'a'*101)

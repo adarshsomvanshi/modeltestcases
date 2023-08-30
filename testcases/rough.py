@@ -963,3 +963,179 @@ class EntryResourceTest(ResourceTestCase):
         resp = self.api_client.get('/api/whatever/', format='xml')
         self.assertValidXMLResponse(resp)
 """
+
+# import pytest
+# import re
+# from your_module import is_valid_email
+
+# def test_valid_email():
+#     valid_emails = [
+#         "test@example.com",
+#         "user123@domain.net",
+#         "another.email@gmail.com",
+#     ]
+
+#     for email in valid_emails:
+#         assert is_valid_email(email) is True
+
+# def test_invalid_email():
+#     invalid_emails = [
+#         "invalid-email",
+#         "user@.com",
+#         "@domain.com",
+#         "user@domain",
+#         "user@domain.",
+#     ]
+
+#     for email in invalid_emails:
+#         assert is_valid_email(email) is False
+
+# from django.test import TestCase
+# from django.core.exceptions import ValidationError
+# from your_app.models import IntegrationConfig
+
+# class IntegrationConfigModelTestCase(TestCase):
+#     def test_blank_fields(self):
+#         # Try creating an instance with all fields blank
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create()
+
+#     def test_invalid_notification_type(self):
+#         # Try creating an instance with an invalid notification type
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create(type='invalid_type')
+
+#     def test_invalid_identifier(self):
+#         # Try creating an instance with an invalid identifier
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create(identifier='invalid_identifier')
+
+#     def test_long_org_name(self):
+#         # Try creating an instance with an org_name that exceeds max length
+#         long_name = 'a' * 256
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create(org_name=long_name)
+
+#     def test_long_description(self):
+#         # Try creating an instance with a description that exceeds max length
+#         long_description = 'a' * 256
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create(description=long_description)
+
+#     def test_invalid_json_fields(self):
+#         # Try creating an instance with invalid JSON data in fields
+#         invalid_filters = 'invalid_json'
+#         invalid_config = 'invalid_json'
+#         invalid_extra = 'invalid_json'
+#         with self.assertRaises(ValidationError):
+#             IntegrationConfig.objects.create(filters=invalid_filters, config=invalid_config, extra=invalid_extra)
+
+
+import pytest
+import requests
+
+BASE_URL = 'http://your-api-url.com'  # Replace with your API URL
+
+def test_get_users():
+    response = requests.get(f'{BASE_URL}/users')
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+
+def test_get_user_by_id():
+    user_id = 1  # Replace with a valid user ID
+    response = requests.get(f'{BASE_URL}/users/{user_id}')
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+    assert data.get('id') == user_id
+
+def test_invalid_user_id():
+    invalid_user_id = 9999  # An invalid user ID
+    response = requests.get(f'{BASE_URL}/users/{invalid_user_id}')
+    assert response.status_code == 404
+    data = response.json()
+    assert 'detail' in data
+
+def test_create_user():
+    user_data = {
+        'name': 'John Doe',
+        'email': 'johndoe@example.com',
+        # Other required fields
+    }
+    response = requests.post(f'{BASE_URL}/users', json=user_data)
+    assert response.status_code == 201
+    data = response.json()
+    assert isinstance(data, dict)
+    assert data.get('id') is not None
+
+def test_missing_required_fields():
+    invalid_user_data = {
+        'name': 'Jane Smith'
+        # Missing 'email' field
+    }
+    response = requests.post(f'{BASE_URL}/users', json=invalid_user_data)
+    assert response.status_code == 400
+    data = response.json()
+    assert 'email' in data
+
+def test_update_user():
+    user_id = 1
+    updated_user_data = {
+        'name': 'Updated Name'
+    }
+    response = requests.put(f'{BASE_URL}/users/{user_id}', json=updated_user_data)
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+    assert data.get('name') == updated_user_data['name']
+
+def test_delete_user():
+    user_id = 1
+    response = requests.delete(f'{BASE_URL}/users/{user_id}')
+    assert response.status_code == 204
+
+def test_nonexistent_user_delete():
+    invalid_user_id = 9999
+    response = requests.delete(f'{BASE_URL}/users/{invalid_user_id}')
+    assert response.status_code == 404
+
+
+import re
+
+def is_valid_email(email):
+    regex_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(regex_pattern, email)
+
+# Test cases
+print(is_valid_email("user@example.com"))  # True
+print(is_valid_email("invalid.email"))     # False
+
+import unittest
+import requests
+import re
+
+class TestAPIURLFieldWithRegex(unittest.TestCase):
+
+    def setUp(self):
+        self.base_url = "http://your-api-base-url"
+
+    def test_url_field_with_regex(self):
+        response = requests.get(self.base_url + "/api-endpoint")
+        self.assertEqual(response.status_code, 200)
+
+        # Assuming the API response is in JSON format
+        response_json = response.json()
+
+        # Replace "url_field_name" with the actual URL field you want to test
+        url_field_value = response_json.get("url_field_name", "")
+
+        # Define the regex pattern for basic URL validation
+        url_regex_pattern = r'^https?://[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/?'
+
+        # Test the URL field value against the regex pattern
+        self.assertTrue(re.match(url_regex_pattern, url_field_value))
+
+if __name__ == "__main__":
+    unittest.main()

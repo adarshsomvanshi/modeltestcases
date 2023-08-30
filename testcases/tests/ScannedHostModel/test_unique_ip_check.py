@@ -14,6 +14,6 @@ class ScannedHostModelTest(TestCase):
             status = False
         )
     # To check unique ip of scanned host
-    # def test_shost_unique_ip(self):
-    #     with self.assertRaises(ValueError):
-    #         ScannedHost.objects.create(ip = '192.168.1.2')
+    def test_shost_unique_ip(self):
+        with self.assertRaises(Exception):
+            ScannedHost.objects.create(ip = '192.168.1.1')
